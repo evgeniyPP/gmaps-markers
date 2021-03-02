@@ -1,6 +1,9 @@
 <template>
     <div class="my-6">
         <div class="max-w-11/12 mx-auto">
+            <p class="mb-4 text-lg leading-6 font-medium text-gray-900">
+                Маркеры
+            </p>
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div
