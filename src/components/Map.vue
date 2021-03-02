@@ -28,8 +28,6 @@ export default {
                 label: ++this.labelIndex + '',
                 map: this.map,
             });
-
-            this.map.panTo(position);
             marker.addListener('click', ({ latLng }) =>
                 this.$emit('marker-click', {
                     latitude: latLng.lat(),
@@ -59,12 +57,54 @@ export default {
                 zoomControl: true,
             };
             this.map = new this.$gmaps.Map(element, options);
-            console.log(this.map);
             this.map.addListener('click', e => this.addMarker(e.latLng));
+        },
+        setMarkers(data) {
+            const dataWithMarkers = data.map(
+                ({ id, description, objects, position }) => {
+                    const marker = new this.$gmaps.Marker({
+                        position: {
+                            lat: position.latitude,
+                            lng: position.longitude,
+                        },
+                        label: id + '',
+                        map: this.map,
+                    });
+                    marker.addListener('click', ({ latLng }) =>
+                        this.$emit('marker-click', {
+                            latitude: latLng.lat(),
+                            longitude: latLng.lng(),
+                        })
+                    );
+                    return {
+                        id,
+                        description,
+                        position,
+                        objects,
+                        marker,
+                    };
+                }
+            );
+            this.$emit('set-markers', dataWithMarkers);
         },
     },
     mounted() {
         this.initMap();
+
+        const isSavedPreviously = localStorage.getItem('markers');
+        if (isSavedPreviously) {
+            const data = JSON.parse(isSavedPreviously);
+            if (data.length) {
+                this.setMarkers(data);
+                const firstItem = data[0];
+                const lastItem = data[data.length - 1];
+                this.labelIndex = lastItem.id;
+                this.setCenter({
+                    lat: firstItem.position.latitude,
+                    lng: firstItem.position.longitude,
+                });
+            }
+        }
     },
 };
 </script>

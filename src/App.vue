@@ -3,6 +3,7 @@
         <Map
             @marker-add="onMarkerAdd"
             @marker-click="onMarkerClick"
+            @set-markers="setMarkers"
             :markers="markers"
             ref="googleMap"
         />
@@ -44,6 +45,7 @@ export default {
         onMarkerAdd(marker) {
             this.markers.push(marker);
             this.selectMarker(marker.id);
+            this.save();
         },
         onMarkerClick({ latitude, longitude }) {
             const selectedMarker = this.markers.find(
@@ -63,6 +65,7 @@ export default {
             );
             if (!newDescription) return;
             selectedMarker.description = newDescription;
+            this.save();
         },
         onMarkerRemove(id) {
             const selectedMarker = this.markers.find(m => m.id === id);
@@ -72,6 +75,7 @@ export default {
             selectedMarker.marker.setMap(null);
             this.selectedMarker = null;
             this.markers = this.markers.filter(m => m.id !== id);
+            this.save();
         },
         selectMarker(id) {
             const selectedMarker = this.markers.find(m => m.id === id);
@@ -90,6 +94,7 @@ export default {
                 id,
                 name,
             });
+            this.save();
         },
         onObjectEdit(id) {
             const selectedMarker = this.markers.find(
@@ -106,6 +111,7 @@ export default {
             );
             if (!name) return;
             selectedObject.name = name;
+            this.save();
         },
         onObjectRemove(id) {
             const selectedMarker = this.markers.find(m => m.id === id);
@@ -119,6 +125,21 @@ export default {
             this.selectedMarker.objects = this.selectedMarker.objects.filter(
                 o => o.id !== id
             );
+            this.save();
+        },
+        save() {
+            const data = this.markers.map(
+                ({ id, description, objects, position }) => ({
+                    id,
+                    description,
+                    objects,
+                    position,
+                })
+            );
+            localStorage.setItem('markers', JSON.stringify(data));
+        },
+        setMarkers(data) {
+            this.markers = data;
         },
     },
 };

@@ -12,14 +12,14 @@
             <a
                 @click.prevent="editObject"
                 href="#"
-                class="text-yellow-600 hover:text-indigo-900 pr-2"
+                class="text-yellow-600 hover:text-yellow-900 pr-2"
             >
                 Изменить
             </a>
             <a
                 @click.prevent="removeObject"
                 href="#"
-                class="text-red-600 hover:text-indigo-900"
+                class="text-red-600 hover:text-red-900"
             >
                 Удалить
             </a>
