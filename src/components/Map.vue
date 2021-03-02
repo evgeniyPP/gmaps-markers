@@ -1,5 +1,5 @@
 <template>
-    <div class="google-map" :id="name"></div>
+    <div class="w-11/12 h-120 mx-auto my-4 bg-gray-400" :id="name"></div>
 </template>
 
 <script>
@@ -60,12 +60,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.google-map {
-    width: 90%;
-    height: 480px;
-    margin: 0 auto;
-    background: gray;
-}
-</style>
