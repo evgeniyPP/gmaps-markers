@@ -5,6 +5,7 @@ import './index.css';
 Vue.config.productionTip = false;
 
 Vue.prototype.$window = window;
+Vue.prototype.$log = console.log.bind(console);
 Vue.prototype.$gmaps = window.google.maps;
 
 new Vue({

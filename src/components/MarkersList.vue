@@ -51,17 +51,14 @@
                                             v-for="marker in markers"
                                             :key="marker.label"
                                             :marker="marker"
+                                            @marker-select="
+                                                selectMarker(marker.label)
+                                            "
                                             @marker-edit="
-                                                $emit(
-                                                    'marker-edit',
-                                                    marker.label
-                                                )
+                                                editMarker(marker.label)
                                             "
                                             @marker-remove="
-                                                $emit(
-                                                    'marker-remove',
-                                                    marker.label
-                                                )
+                                                removeMarker(marker.label)
                                             "
                                         />
                                     </template>
@@ -84,5 +81,16 @@ export default {
         markers: Array,
     },
     components: { MarkersListItem },
+    methods: {
+        selectMarker(label) {
+            this.$emit('marker-select', label);
+        },
+        editMarker(label) {
+            this.$emit('marker-edit', label);
+        },
+        removeMarker(label) {
+            this.$emit('marker-remove', label);
+        },
+    },
 };
 </script>

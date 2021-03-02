@@ -6,6 +6,7 @@
             :markers="markers"
         />
         <MarkersList
+            @marker-select="selectMarker"
             @marker-edit="onMarkerEdit"
             @marker-remove="onMarkerRemove"
             :markers="markers"
@@ -32,6 +33,7 @@ export default {
     methods: {
         onMarkerAdd(marker) {
             this.markers.push(marker);
+            this.selectMarker(marker.label);
         },
         onMarkerClick({ latitude, longitude }) {
             const selectedMarker = this.markers.find(
@@ -40,12 +42,10 @@ export default {
                     marker.position.longitude === longitude
             );
             if (!selectedMarker) return;
-            this.selectedMarker = selectedMarker;
+            this.selectMarker(selectedMarker.label);
         },
         onMarkerEdit(label) {
-            const selectedMarker = this.markers.find(
-                marker => marker.label === label
-            );
+            const selectedMarker = this.markers.find(m => m.label === label);
             if (!selectedMarker) return;
             const newDescription = this.$window.prompt(
                 'Изменить описание точки',
@@ -55,16 +55,20 @@ export default {
             selectedMarker.description = newDescription;
         },
         onMarkerRemove(label) {
-            const selectedMarker = this.markers.find(
-                marker => marker.label === label
-            );
+            const selectedMarker = this.markers.find(m => m.label === label);
             if (!selectedMarker) return;
             const confirm = this.$window.confirm('Удалить точку');
             if (!confirm) return;
             selectedMarker.marker.setMap(null);
+            this.selectedMarker = null;
             this.markers = this.markers.filter(
                 marker => marker.label !== label
             );
+        },
+        selectMarker(label) {
+            const selectedMarker = this.markers.find(m => m.label === label);
+            if (!selectedMarker) return;
+            this.selectedMarker = selectedMarker.label;
         },
     },
 };
