@@ -55,8 +55,11 @@ export default {
             const options = {
                 zoom: 14,
                 center: new this.$gmaps.LatLng(55.75, 37.62),
+                disableDefaultUI: true,
+                zoomControl: true,
             };
             this.map = new this.$gmaps.Map(element, options);
+            console.log(this.map);
             this.map.addListener('click', e => this.addMarker(e.latLng));
         },
     },
