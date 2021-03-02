@@ -6,6 +6,9 @@ module.exports = {
             spacing: {
                 '120': '30rem',
             },
+            maxWidth: {
+                '11/12': '91.666667%',
+            },
         },
     },
     variants: {

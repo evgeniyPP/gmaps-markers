@@ -1,11 +1,12 @@
 <template>
-    <div class="w-11/12 h-120 mx-auto my-4 bg-gray-400" :id="name"></div>
+    <div :id="name" class="w-11/12 h-120 mx-auto my-4 bg-gray-400"></div>
 </template>
 
 <script>
 export default {
     name: 'Map',
     props: {
+        markers: Array,
         name: {
             type: String,
             default: 'google-map',
@@ -16,7 +17,6 @@ export default {
             map: null,
             labels: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
             labelIndex: 0,
-            markers: [],
         };
     },
     methods: {
@@ -35,7 +35,13 @@ export default {
             }
 
             this.map.panTo(position);
-            this.markers.push({
+            marker.addListener('click', ({ latLng }) =>
+                this.$emit('marker-click', {
+                    latitude: latLng.lat(),
+                    longitude: latLng.lng(),
+                })
+            );
+            this.$emit('marker-add', {
                 label,
                 description,
                 position: {
