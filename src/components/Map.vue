@@ -15,24 +15,20 @@ export default {
     data() {
         return {
             map: null,
-            labels: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
             labelIndex: 0,
         };
     },
     methods: {
         addMarker(position) {
-            const label = this.labels[this.labelIndex++ % this.labels.length];
+            const description = this.$window.prompt('Введите описание точки');
+            if (!description) return;
+
+            const label = ++this.labelIndex + '';
             const marker = new this.$gmaps.Marker({
                 position,
                 label,
                 map: this.map,
             });
-
-            const description = this.$window.prompt('Введите описание');
-            if (!description) {
-                marker.setMap(null);
-                return;
-            }
 
             this.map.panTo(position);
             marker.addListener('click', ({ latLng }) =>
