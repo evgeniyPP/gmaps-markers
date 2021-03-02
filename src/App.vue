@@ -12,18 +12,27 @@
             @marker-remove="onMarkerRemove"
             :markers="markers"
         />
+        <ObjectsList
+            v-if="selectedMarker"
+            @object-add="onObjectAdd"
+            @object-edit="onObjectEdit"
+            @object-remove="onObjectRemove"
+            :objects="selectedMarker.objects"
+        />
     </div>
 </template>
 
 <script>
 import Map from './components/Map';
 import MarkersList from './components/MarkersList';
+import ObjectsList from './components/ObjectsList';
 
 export default {
     name: 'App',
     components: {
         Map,
         MarkersList,
+        ObjectsList,
     },
     data() {
         return {
@@ -34,7 +43,7 @@ export default {
     methods: {
         onMarkerAdd(marker) {
             this.markers.push(marker);
-            this.selectMarker(marker.label);
+            this.selectMarker(marker.id);
         },
         onMarkerClick({ latitude, longitude }) {
             const selectedMarker = this.markers.find(
@@ -43,10 +52,10 @@ export default {
                     marker.position.longitude === longitude
             );
             if (!selectedMarker) return;
-            this.selectMarker(selectedMarker.label);
+            this.selectMarker(selectedMarker.id);
         },
-        onMarkerEdit(label) {
-            const selectedMarker = this.markers.find(m => m.label === label);
+        onMarkerEdit(id) {
+            const selectedMarker = this.markers.find(m => m.id === id);
             if (!selectedMarker) return;
             const newDescription = this.$window.prompt(
                 'Изменить описание точки',
@@ -55,23 +64,61 @@ export default {
             if (!newDescription) return;
             selectedMarker.description = newDescription;
         },
-        onMarkerRemove(label) {
-            const selectedMarker = this.markers.find(m => m.label === label);
+        onMarkerRemove(id) {
+            const selectedMarker = this.markers.find(m => m.id === id);
             if (!selectedMarker) return;
-            const confirm = this.$window.confirm('Удалить точку');
+            const confirm = this.$window.confirm('Удалить точку?');
             if (!confirm) return;
             selectedMarker.marker.setMap(null);
             this.selectedMarker = null;
-            this.markers = this.markers.filter(
-                marker => marker.label !== label
-            );
+            this.markers = this.markers.filter(m => m.id !== id);
         },
-        selectMarker(label) {
-            const selectedMarker = this.markers.find(m => m.label === label);
+        selectMarker(id) {
+            const selectedMarker = this.markers.find(m => m.id === id);
             if (!selectedMarker) return;
-            this.selectedMarker = selectedMarker.label;
+            this.selectedMarker = selectedMarker;
             const latLng = selectedMarker.marker.getPosition();
             this.$refs.googleMap.setCenter(latLng);
+        },
+        onObjectAdd(name) {
+            const selectedMarker = this.markers.find(
+                m => m.id === this.selectedMarker.id
+            );
+            if (!selectedMarker) return;
+            const id = selectedMarker.objects.length + 1;
+            selectedMarker.objects.push({
+                id,
+                name,
+            });
+        },
+        onObjectEdit(id) {
+            const selectedMarker = this.markers.find(
+                m => m.id === this.selectedMarker.id
+            );
+            if (!selectedMarker) return;
+            const selectedObject = selectedMarker.objects.find(
+                o => o.id === id
+            );
+            if (!selectedObject) return;
+            const name = this.$window.prompt(
+                'Изменить название объекта',
+                selectedObject.name
+            );
+            if (!name) return;
+            selectedObject.name = name;
+        },
+        onObjectRemove(id) {
+            const selectedMarker = this.markers.find(m => m.id === id);
+            if (!selectedMarker) return;
+            const selectedObject = selectedMarker.objects.find(
+                o => o.id === id
+            );
+            if (!selectedObject) return;
+            const confirm = this.$window.confirm('Удалить объект?');
+            if (!confirm) return;
+            this.selectedMarker.objects = this.selectedMarker.objects.filter(
+                o => o.id !== id
+            );
         },
     },
 };

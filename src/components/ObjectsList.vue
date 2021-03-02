@@ -16,13 +16,7 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
-                                            №
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                        >
-                                            Описание
+                                            Название объекта
                                         </th>
                                         <th
                                             scope="col"
@@ -38,25 +32,22 @@
                                     class="bg-white divide-y divide-gray-200"
                                     x-max="1"
                                 >
-                                    <tr v-if="!markers.length">
+                                    <tr v-if="!objects || !objects.length">
                                         <td
                                             colspan="100%"
                                             class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                                         >
-                                            Маркеров пока нет
+                                            Объектов пока нет
                                         </td>
                                     </tr>
                                     <template v-else>
-                                        <MarkersListItem
-                                            v-for="marker in markers"
-                                            :key="marker.id"
-                                            :marker="marker"
-                                            @marker-select="
-                                                selectMarker(marker.id)
-                                            "
-                                            @marker-edit="editMarker(marker.id)"
-                                            @marker-remove="
-                                                removeMarker(marker.id)
+                                        <ObjectsListItem
+                                            v-for="object in objects"
+                                            :key="object.id"
+                                            :object="object"
+                                            @object-edit="editObject(object.id)"
+                                            @object-remove="
+                                                removeObject(object.id)
                                             "
                                         />
                                     </template>
@@ -65,29 +56,41 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="mt-4 flex flex-row-reverse">
+                    <button
+                        @click="addObject"
+                        type="button"
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-green-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Добавить объект
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import MarkersListItem from './MarkersListItem';
+import ObjectsListItem from './ObjectsListItem';
 
 export default {
-    name: 'MarkersList',
+    name: 'ObjectsList',
     props: {
-        markers: Array,
+        objects: Array,
     },
-    components: { MarkersListItem },
+    components: { ObjectsListItem },
     methods: {
-        selectMarker(id) {
-            this.$emit('marker-select', id);
+        addObject() {
+            const name = this.$window.prompt('Введите название объекта');
+            if (!name) return;
+            this.$emit('object-add', name);
         },
-        editMarker(id) {
-            this.$emit('marker-edit', id);
+        editObject(id) {
+            this.$emit('object-edit', id);
         },
-        removeMarker(id) {
-            this.$emit('marker-remove', id);
+        removeObject(id) {
+            this.$emit('object-remove', id);
         },
     },
 };

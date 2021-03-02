@@ -23,10 +23,9 @@ export default {
             const description = this.$window.prompt('Введите описание точки');
             if (!description) return;
 
-            const label = ++this.labelIndex + '';
             const marker = new this.$gmaps.Marker({
                 position,
-                label,
+                label: ++this.labelIndex + '',
                 map: this.map,
             });
 
@@ -38,12 +37,13 @@ export default {
                 })
             );
             this.$emit('marker-add', {
-                label,
+                id: this.labelIndex,
                 description,
                 position: {
                     latitude: position.lat(),
                     longitude: position.lng(),
                 },
+                objects: [],
                 marker,
             });
         },

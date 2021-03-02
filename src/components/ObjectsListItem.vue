@@ -1,25 +1,20 @@
 <template>
-    <tr @click="selectMarker" class="cursor-pointer">
-        <td
-            class="w-28 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-        >
-            {{ marker.id }}
-        </td>
+    <tr>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            {{ marker.description }}
+            {{ object.name }}
         </td>
         <td
             class="w-40 px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
         >
             <a
-                @click.prevent="editMarker"
+                @click.prevent="editObject"
                 href="#"
                 class="text-yellow-600 hover:text-indigo-900 pr-2"
             >
                 Изменить
             </a>
             <a
-                @click.prevent="removeMarker"
+                @click.prevent="removeObject"
                 href="#"
                 class="text-red-600 hover:text-indigo-900"
             >
@@ -31,19 +26,16 @@
 
 <script>
 export default {
-    name: 'MarkersListItem',
+    name: 'ObjectsListItem',
     props: {
-        marker: Object,
+        object: Object,
     },
     methods: {
-        selectMarker() {
-            this.$emit('marker-select');
+        editObject() {
+            this.$emit('object-edit');
         },
-        editMarker() {
-            this.$emit('marker-edit');
-        },
-        removeMarker() {
-            this.$emit('marker-remove');
+        removeObject() {
+            this.$emit('object-remove');
         },
     },
 };
