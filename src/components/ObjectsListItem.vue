@@ -1,11 +1,14 @@
 <template>
     <tr>
+        <td
+            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+        >
+            {{ index + 1 }}
+        </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             {{ object.name }}
         </td>
-        <td
-            class="w-40 px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-        >
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <a
                 @click.prevent="editObject"
                 href="#"
@@ -29,6 +32,7 @@ export default {
     name: 'ObjectsListItem',
     props: {
         object: Object,
+        index: Number,
     },
     methods: {
         editObject() {

@@ -1,16 +1,14 @@
 <template>
     <tr @click="selectMarker" class="cursor-pointer">
         <td
-            class="w-28 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
         >
             {{ marker.id }}
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             {{ marker.description }}
         </td>
-        <td
-            class="w-40 px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-        >
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <a
                 @click.prevent="editMarker"
                 href="#"

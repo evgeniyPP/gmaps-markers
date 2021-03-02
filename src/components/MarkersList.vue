@@ -14,9 +14,9 @@
                                     <tr>
                                         <th
                                             scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="w-36 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
-                                            №
+                                            № маркера
                                         </th>
                                         <th
                                             scope="col"
@@ -26,7 +26,7 @@
                                         </th>
                                         <th
                                             scope="col"
-                                            class="relative px-6 py-3"
+                                            class="w-40 relative px-6 py-3"
                                         >
                                             <span class="sr-only">
                                                 Действия

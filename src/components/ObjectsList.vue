@@ -14,13 +14,19 @@
                                     <tr>
                                         <th
                                             scope="col"
+                                            class="w-36 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        >
+                                            №
+                                        </th>
+                                        <th
+                                            scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Название объекта
                                         </th>
                                         <th
                                             scope="col"
-                                            class="relative px-6 py-3"
+                                            class="w-40 relative px-6 py-3"
                                         >
                                             <span class="sr-only">
                                                 Действия
@@ -42,9 +48,10 @@
                                     </tr>
                                     <template v-else>
                                         <ObjectsListItem
-                                            v-for="object in objects"
+                                            v-for="(object, index) in objects"
                                             :key="object.id"
                                             :object="object"
+                                            :index="index"
                                             @object-edit="editObject(object.id)"
                                             @object-remove="
                                                 removeObject(object.id)
