@@ -4,6 +4,7 @@
             @marker-add="onMarkerAdd"
             @marker-click="onMarkerClick"
             :markers="markers"
+            ref="googleMap"
         />
         <MarkersList
             @marker-select="selectMarker"
@@ -69,6 +70,8 @@ export default {
             const selectedMarker = this.markers.find(m => m.label === label);
             if (!selectedMarker) return;
             this.selectedMarker = selectedMarker.label;
+            const latLng = selectedMarker.marker.getPosition();
+            this.$refs.googleMap.setCenter(latLng);
         },
     },
 };

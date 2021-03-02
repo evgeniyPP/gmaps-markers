@@ -47,6 +47,9 @@ export default {
                 marker,
             });
         },
+        setCenter(latLng) {
+            this.map.setCenter(latLng);
+        },
         initMap() {
             const element = document.getElementById(this.name);
             const options = {
