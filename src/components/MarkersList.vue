@@ -51,6 +51,18 @@
                                             v-for="marker in markers"
                                             :key="marker.label"
                                             :marker="marker"
+                                            @marker-edit="
+                                                $emit(
+                                                    'marker-edit',
+                                                    marker.label
+                                                )
+                                            "
+                                            @marker-remove="
+                                                $emit(
+                                                    'marker-remove',
+                                                    marker.label
+                                                )
+                                            "
                                         />
                                     </template>
                                 </tbody>

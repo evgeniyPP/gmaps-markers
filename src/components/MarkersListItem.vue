@@ -9,10 +9,18 @@
             {{ marker.description }}
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-            <a href="#" class="text-yellow-600 hover:text-indigo-900 pr-2">
+            <a
+                @click.prevent="$emit('marker-edit')"
+                href="#"
+                class="text-yellow-600 hover:text-indigo-900 pr-2"
+            >
                 Изменить
             </a>
-            <a href="#" class="text-red-600 hover:text-indigo-900">
+            <a
+                @click.prevent="$emit('marker-remove')"
+                href="#"
+                class="text-red-600 hover:text-indigo-900"
+            >
                 Удалить
             </a>
         </td>

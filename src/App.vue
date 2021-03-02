@@ -5,7 +5,11 @@
             @marker-click="onMarkerClick"
             :markers="markers"
         />
-        <MarkersList :markers="markers" />
+        <MarkersList
+            @marker-edit="onMarkerEdit"
+            @marker-remove="onMarkerRemove"
+            :markers="markers"
+        />
     </div>
 </template>
 
@@ -37,6 +41,30 @@ export default {
             );
             if (!selectedMarker) return;
             this.selectedMarker = selectedMarker;
+        },
+        onMarkerEdit(label) {
+            const selectedMarker = this.markers.find(
+                marker => marker.label === label
+            );
+            if (!selectedMarker) return;
+            const newDescription = this.$window.prompt(
+                'Изменить описание точки',
+                selectedMarker.description
+            );
+            if (!newDescription) return;
+            selectedMarker.description = newDescription;
+        },
+        onMarkerRemove(label) {
+            const selectedMarker = this.markers.find(
+                marker => marker.label === label
+            );
+            if (!selectedMarker) return;
+            const confirm = this.$window.confirm('Удалить точку');
+            if (!confirm) return;
+            selectedMarker.marker.setMap(null);
+            this.markers = this.markers.filter(
+                marker => marker.label !== label
+            );
         },
     },
 };
